@@ -10,6 +10,7 @@
     "moduleResolution": "node",
     "rootDir": "src",
     "noImplicitReturns": true,
+    "esModuleInterop": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true
