@@ -17,7 +17,7 @@
     "esModuleInterop": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strict": false
   },
   "exclude": [
     "node_modules",
