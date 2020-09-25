@@ -1,34 +1,20 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
-    "module": "commonjs",
     "target": "es6",
-    "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "allowJs": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "jsx": "react",
+    "rootDir": "src",
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
     },
-    "moduleResolution": "node",
-    "rootDir": "src",
-    "noImplicitReturns": true,
-    "esModuleInterop": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strict": false
+    "allowJs": true,
+    "resolveJsonModule": true,
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ],
-  "types": [
-    "typePatches"
+  "include": [
+    "src"
   ]
 }

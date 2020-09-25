@@ -10,29 +10,30 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', 'scss'],
+    extensions: ['.ts', '.tsx', '.js', '.scss'],
     alias: {
       '@': path.join(__dirname, 'src')
     }
   },
   module: {
-    rules: [{
-      test: /\.ts(x?)$/,
-      loader: 'ts-loader',
-      exclude: /node_modules/
-    }, {
-      test: /\.scss$/,
-      use: [{
-        loader: 'style-loader'
-      }, {
-        loader: 'sass-loader'
-      }, {
-        loader: 'css-loader',
-        options: {
-          modules: true
-        }
-      }]
-    }]
+    rules: [
+      {
+        test: /\.ts(x?)$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/
+      }, 
+      {
+        test: /\.scss$/,
+        use: [
+          // Creates `style` nodes from JS strings
+          { loader: 'style-loader' },
+          // Translates CSS into CommonJS
+          { loader: 'css-loader', options: { modules: true } },
+          // Compiles Sass to CSS
+          { loader: 'sass-loader'},
+        ],
+      },
+    ]
   },
   devServer: {
     contentBase: './public',
