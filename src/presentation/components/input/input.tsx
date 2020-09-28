@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Styles from './input-styles.scss'
+import Context from '@/presentation/contexts/form/form-context'
 
 type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 const Input: React.FC<Props> = (props: Props) => {
+  const { errorState } = useContext(Context)
+  const error = errorState[`${props.name}`]
   const enableInput = (event: React.FocusEvent<HTMLInputElement>): void => {
     event.target.readOnly = false
+  }
+
+  const getStatus = (): string => {
+    return '🔴'
+  }
+
+  const geTitle = (): string => {
+    return error
   }
 
   return (
     <div className={Styles.inputWrap}>
       <input {...props} readOnly onFocus={enableInput} />
-      <span className={Styles.status}><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKwElEQVR4nO2da2xUxxXH/+der+2wxTaYIMUC393rrU3rVE2lxDS0DRGVoKIPUtogKoicim98zIdGpHxMQ6MqKv1CpUqhRaFV86iqPBqVRrEMjUh5SEkTqLxmvQ/bECUCssaQGK/vnH7wo9Tgx+6dmXvven6Sv9irc47n/HfuzJ0zM4DBYDAYDAaDwWAwGAwGg8FgMBgMBoPBYDAYDIZqg4IOQBWpVKpB3BQdFnEHk+gAUTsYa0BYDsZyYOYHAEYBjIIwCsYoCMME9AnmtAX0LRsbS3/w8cc3gvtv1FE1AnBdt9Eq8Ua2eROATWDcC3n/nwDwPsA9AHriY2MnqkUQkRZAIpFosgXtgMW7wdgAwNbkugTgn0w4GqureyWdTo9q8iudKAqA3Fb3uyCvm0DfB1AXcDyfAXiVLPpDJpf7R8CxlE2UBGCnWpM/YeJ9AL4cdDB3goB/g+mZzGDuFUw+NkJPFARgu47TTcA+gFJBB7MYCOhjpgMDg7mjCLkQQi2AlOM8KECHCLgv6Fgqg8+ysPdmh7Jngo5kLkIpgPaW9lUiNv4sAz9FSGMsAwHG70oQTw0ODn4adDCzCV3jphKJbcx4HkBz0LFI5hMQugfy+b8HHcit6Jo2LUhnZ2dtQzz+HBgHASwLOh4FxAHsam5sqr86UuwFwAHHAyAkPUCH4yQngJcAuj/oWPTA79iet7N/ePhi0JEELoBkMtllCX4T1dflL8RHwqLv5HK5D4IMwgrSeSqZ3EyCe7D0kg8A91iCT3wxmXwoyCACE0BbIrGTBb9Bk8/GpUqjEHyszXF+GFQAgTwC2hKJnWD8EQH3QCHCA/jRgULhr7odaxdAKpnczILfABDT7TvkjFkWbbmQy53Q6VSrACYHfOJtgL6g02+EGBEWPaRzYKhNAFNTvdMArdLlM6J8ZHsTD+iaImp5Bnd2dtZOzfNN8hfmHs+2/wxNL+m0OGmIx58DaLsOX9UBtTY3NtVeHSm+rdyTagdticQjYGgf3VYBDMJW1WsHSgXQ3tK+youN92FpvuiRwSclFutUriIqHQOI2PizMMn3w+pasn6h0oGyHqDNcTYA9I5KH0sEwcJanx3KnlVhXFUPYBPoEEzyZWCR5f0WinKlxKjrON0MfFWF7aUJ3d/WmtytwrIKAdiTBZwGmdBkNbT0fEk36DrOzqhU70YJBtalWpM/km1XtgCIQD+XbPMO8DAIj0+AWyhWs5qYdgDoV+93hn5i2kGxmtUT4BYQHgd4WLlXYultK3WQ5ra63yMSr8u0eTs8XCPE+vTQ0KX/8+26jfDEMQLWK/UOnIJtbclmsyO3/r5j7dqWCcs6BdAalf7Joi0ydyDJ7QHI65Zq744+aP/s5ANANpsdgW1tYeCUKtdzJR8A0kNDl0C0X5XvGQRLbWNpAkgkEk1Te/WUMsE8p/pVimC+5E9T43lvyfZ7hzge6by7U9pyujQB2IJ2QMNGzVgsNjHf31WIYDHJBwCvrq4ky+c8LBuL3/ixLGPyHgEWK5mn3sa49/BCH5EpgsUmf7GxSYFJWltLGQS6rttInrgCPcvL/WxbXYtJiN+BYTnJn2qD0wDaK/FVJqX42OcrZBxSIaUHsEq8Efp2GbXDE8dc121c6IN+eoJykw9PHIOe5ANA7MZdd31LhiEpApg6lkUbBKxXKYJKkq96+nkbLKfNZY0BtAoAUCeCSCQfAEDflmLFr4FUKtXApYmiDFuVIDNh0Uk+AEDExz5v8DsO8N0DiJuiAwEu+8rqCSKWfACwPquv9z3m8C0Ai7jDrw2/+BVBBJMPABBE6/za8C0AJhG4AIDKRRDV5AOABfhue/+DQCJdU58FqUQEUU0+ALBA8D0AGEpXv8qlXBFENfkAAPK/8iihB5g5bzc0lCOChQht8gEA7LvtZfQAoRMAIEcE4U4+wPDf9jJeBIVSAIA/EYQ9+QBAoegBQiwAoDIRRCH5k1CDXwvmhI4ljgwBhPqo9LLW86fQUV4mB77m10JVC6CS5E8TBREwyHfby5gGhlIAfpI/TdhFQBK+fDKmgaETgIzkTxNuEYSjB1C/IaIMyn23r7qySCnsfzOKhB6Ade7ImZeKyrg0lJcpg/y3vW8BEFtpvzZkUOmqnuryMpUw4Lvt/ReEMAUuAL9LupEVgbCDF4BVZ6UR4Nn3stbzIygCtuqs4B8BmUzmGgjn/NqpBNnFHBETwYeZTCYUL4IAoEeSnUWjqpInKiIgltPmUgRAHmkVgOoyrmiIQE6bSxGAiNFxAJ4MW4ugX0cZV0XlZcD5cv1UiIda+7gMQ1IEkM1mR0A4KcPWQhDTfl1lXOWKgCx6olJfZUE4KeP5D8hcDhZ0VJqt+ai1exf6iMz1/HJEsCbn9AA87/Z1KQh6QZYpaQLwLH4JwE1Z9uaiVCrVzPd3FcUcixVBL3oFQKqnxGOexS/LMiZNAPl8vshgxecDATVEm+f6m8pKnsWIwG11N0D1TSiE1/P5fFGWObkVQWwfkWrvjj746Y61a1tm/1pHGdd8IkgkEvVE4leqfE/DzFLbWPaePmpzEueg/Hp3HgbR/hrPe8urqyth3HuYiZ+Gvv3558miJ9bknJ5e9Aq31d0wlfyvK/b7n4FC/l5IfPMqfVOn6zi7CJoGhIHDE1PPfC0XYDF4V7ZQ+JNMmyp29dptjtNnTguVDOHCQD7/JUh+36KiKthj4IACu0saZv4lFLxsU7Wv33adxFkC7lNkf6nx3kAh/wAUCEDVvgDPAu9FSK5IjzhMhL1Q9Kpd2caQTKHwLgG/V2V/qcCgw5l8/l+q7CvdGWSVap8EcEWljyrnSu3E+JMqHSgVQP+l/stE2KPSRzVDhD19Fy8q/QIpP9zxarGYXrmiaQXUvySpKohxMFPI/0a1Hy2bQ+vj8Z8BrOTWq6qEcKZueVxp1/8/V5owl0cvFr5cA3SlC4WcDm/atoenC4UcC3srwNd1+YwefJ2FvVVX8gHN5wNkh7JnBFvbAeg4Vz9qjAu2tmeHsmd0OtV1wvcMxZFiduWKpgsAtsNcLDmNAOGxbCH/mm7H2gUAAJ8Wi+dWrmjqB7AtqBhCxDgIuwfy+ReDcB7oNzCVTG5mIf4CkLQ7cKIFXxdsbc8N5pTfNTQXgXfByWSyyxLib0tvdsCXWdhbdT/zZxP4IVG5XO50DdAFQqANoRXCmRqgK+jkAyEQADA5RayPx79JjINBx6IaBn7d1Nz8DZ1TvfkI/BEwm1QisY0ZzwNoDjoWyVwhwp5MPv9q0IHcSuhG4FeLxfTd8dWHhS2aCfgaQijSMmEGHa6dKG3rHxp6L+hgZhPqxk05zoMCdCiqlUUMvG+B92YKhXeDjmUuQi2AKWzXcboJ2BedQlPOMHAgWygcgb5NsxURBQFMY7uOs5NAT0H5voOKOc/gZ7KFwosIeeKniZIApiHXcbYSUTcYP4CG+4oX4CYIrzHzkWyh8CYiVgcZRQHMkEgkmmxBj8Lix8DYAH2DWg+EkxD0gmfxyzL36ukm0gK4lVQq1YBxbyPAm5iwCcBXIO//YwAfTh7LQj2otY/L2p8fNFUjgNmkUqkGcVO0w/I6COgAU/vkHTu8nIHlk5ctTJ+3z9cYNDp59i6NgnkYxP0MpCHstFVn9VdLwg0Gg8FgMBgMBoPBYDAYDAaDwWAwGAwGg8FgMFQ//wWIGO5HbwES0wAAAABJRU5ErkJggg==
-      " width="25" height="25" /></span>
+      <span data-testid={`${props.name}-status`} title={geTitle()} className={Styles.status}>{getStatus()}</span>
     </div>
   )
 }
